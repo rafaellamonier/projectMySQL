@@ -38,8 +38,6 @@ app.use("/style", express.static("./views/style"));
 // Test connection
 connection.connect((error) => {
 	if (error) throw error;
-
-	console.log("Connection successful!");
 });
 
 // Main route
@@ -72,8 +70,6 @@ app.post("/adicionar-produto", (req, res) => {
 		req.files.imageProduct.mv(
 			`${__dirname}/images/${req.files.imageProduct.name}`,
 		);
-
-		console.log("teste returnQuery", returnQuery);
 	});
 
 	// redirect main route
