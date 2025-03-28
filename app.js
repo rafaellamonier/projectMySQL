@@ -7,7 +7,6 @@ import { dirname } from "path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-
 const app = express();
 
 // Run fileUpload
@@ -50,15 +49,35 @@ app.get("/", (req, res) => {
 
 // Add product
 app.post("/adicionar-produto", (req, res) => {
-	// Add
-	console.log("teste req", req.body);
-	console.log("teste files", req.files.imageProduct.name);
+	// Get data of register product
+	let nameProduct = req.body.nameProduct;
+	let valueProduct = req.body.valueProduct;
+	let imageProduct = req.files.imageProduct.name;
 
-	req.files.imageProduct.mv(
-		`${__dirname}/images/${req.files.imageProduct.name}`,
-	);
+	// SQL
+	let sql = `
+		INSERT INTO 
+			produtos (nome, valor, imagem) 
+		VALUES 
+			(
+				'${nameProduct}', 
+				'${valueProduct}', 
+				'${imageProduct}'
+			)`;
 
-	res.end();
+	// SQL command
+	connection.query(sql, (error, returnQuery) => {
+		if (error) throw error;
+
+		req.files.imageProduct.mv(
+			`${__dirname}/images/${req.files.imageProduct.name}`,
+		);
+
+		console.log("teste returnQuery", returnQuery);
+	});
+
+	// redirect main route
+	res.redirect("/");
 });
 
 // List products
