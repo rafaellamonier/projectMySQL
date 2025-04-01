@@ -17,11 +17,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Connection config
-const connection = mysql.createConnection({
-	host: "localhost",
-	user: "root",
-	password: "12345678",
-	database: "projeto",
+const connection = process.env.DB_CONNECTION.createConnection({
+	host: process.env.DB_HOST,
+	user: process.env.DB_USER,
+	password: process.env.DB_PASSWORD,
+	database: process.env.DB_DATABASE,
 });
 
 // Express handlebars config
