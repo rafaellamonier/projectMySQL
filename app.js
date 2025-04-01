@@ -4,10 +4,12 @@ import { engine } from "express-handlebars";
 import fileupload from "express-fileupload";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import dotenv from "dotenv";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const app = express();
+dotenv.config();
 
 // Run fileUpload
 app.use(fileupload());
@@ -17,7 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // Connection config
-const connection = process.env.DB_CONNECTION.createConnection({
+const connection = mysql.createConnection({
 	host: process.env.DB_HOST,
 	user: process.env.DB_USER,
 	password: process.env.DB_PASSWORD,
@@ -62,6 +64,7 @@ app.post("/adicionar-produto", (req, res) => {
 				'${valueProduct}', 
 				'${imageProduct}'
 			)`;
+	let queryViewTable = `SELECT * FROM produtos`;
 
 	// SQL command
 	connection.query(sql, (error, returnQuery) => {
@@ -70,6 +73,13 @@ app.post("/adicionar-produto", (req, res) => {
 		req.files.imageProduct.mv(
 			`${__dirname}/images/${req.files.imageProduct.name}`,
 		);
+	});
+
+	// View table - [test]
+	connection.query(queryViewTable, (error, returnQuery) => {
+		if (error) throw error;
+
+		console.log("teste table", returnQuery);
 	});
 
 	// redirect main route
