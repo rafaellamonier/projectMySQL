@@ -92,6 +92,6 @@ app.get("/products", (req, res) => {
 	res.end();
 });
 
-console.log("Server running on: http://localhost:8080");
+console.log("Server running on: http://localhost:3004");
 
 app.listen(8080);
