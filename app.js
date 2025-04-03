@@ -44,18 +44,18 @@ connection.connect((error) => {
 
 // Main route
 app.get("/", (req, res) => {
-	res.render("formulario");
+	res.render("home");
 });
 
 // Add product
 app.post("/adicionar-produto", (req, res) => {
 	// Get data of register product
-	let nameProduct = req.body.nameProduct;
-	let valueProduct = req.body.valueProduct;
-	let imageProduct = req.files.imageProduct.name;
+	const nameProduct = req.body.nameProduct;
+	const valueProduct = req.body.valueProduct;
+	const imageProduct = req.files.imageProduct.name;
 
 	// SQL
-	let sql = `
+	const sql = `
 		INSERT INTO 
 			produtos (nome, valor, imagem) 
 		VALUES 
@@ -64,7 +64,7 @@ app.post("/adicionar-produto", (req, res) => {
 				'${valueProduct}', 
 				'${imageProduct}'
 			)`;
-	let queryViewTable = `SELECT * FROM produtos`;
+	const queryViewTable = `SELECT * FROM produtos`;
 
 	// SQL command
 	connection.query(sql, (error, returnQuery) => {
@@ -78,8 +78,6 @@ app.post("/adicionar-produto", (req, res) => {
 	// View table - [test]
 	connection.query(queryViewTable, (error, returnQuery) => {
 		if (error) throw error;
-
-		console.log("teste table", returnQuery);
 	});
 
 	// redirect main route
@@ -88,10 +86,18 @@ app.post("/adicionar-produto", (req, res) => {
 
 // List products
 app.get("/products", (req, res) => {
-	// products
-	res.end();
+	const queryViewTable = `SELECT * FROM produtos`;
+	connection.query(queryViewTable, (error, returnQuery) => {
+		if (error) throw error;
+		console.log(returnQuery);
+
+		// const jsonProducts = res.json(returnQuery);
+		res.render("products", {
+			products: returnQuery,
+		});
+	});
 });
 
 console.log("Server running on: http://localhost:3004");
 
-app.listen(8080);
+app.listen(3004);

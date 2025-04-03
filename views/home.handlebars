@@ -5,9 +5,9 @@
     <div class="row">
       <div class="col-6 offset-3">
         <form action="/adicionar-produto" method="post" enctype="multipart/form-data">
-          <input name="nameProduct" type="text" class="form-control" placeholder="Nome do produto"/>
-          <input name="valueProduct" type="number" class="form-control" placeholder="Valor do produto"/>
-          <input name="imageProduct" type="file" class="form-control"/>
+          <input required name="nameProduct" type="text" class="form-control" placeholder="Nome do produto"/>
+          <input required name="valueProduct" type="number" class="form-control" placeholder="Valor do produto"/>
+          <input required name="imageProduct" type="file" class="form-control"/>
           <button type="submit" class="btn btn-primary">Cadastrar</button>
         </form>  
       </div>
